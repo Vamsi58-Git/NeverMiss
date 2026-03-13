@@ -10,10 +10,37 @@
 
 // ── Database credentials ──────────────────────────────────────────────────────
 // Environment variables are used in production platforms like Render.
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_NAME', getenv('DB_NAME') ?: 'nevermiss');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
+// Supports either:
+//   1) DB_HOST/DB_PORT/DB_NAME/DB_USER/DB_PASS
+//   2) DATABASE_URL (mysql://user:pass@host:port/dbname)
+$dbHost = getenv('DB_HOST') ?: 'localhost';
+$dbPort = getenv('DB_PORT') ?: '3306';
+$dbName = getenv('DB_NAME') ?: 'nevermiss';
+$dbUser = getenv('DB_USER') ?: 'root';
+$dbPass = getenv('DB_PASS') ?: '';
+
+$databaseUrl = getenv('DATABASE_URL') ?: '';
+if ($databaseUrl !== '') {
+    $parts = parse_url($databaseUrl);
+    if ($parts !== false) {
+        $scheme = strtolower($parts['scheme'] ?? '');
+        if ($scheme === 'mysql' || $scheme === 'mariadb') {
+            $dbHost = $parts['host'] ?? $dbHost;
+            $dbPort = isset($parts['port']) ? (string) $parts['port'] : $dbPort;
+            $dbUser = $parts['user'] ?? $dbUser;
+            $dbPass = $parts['pass'] ?? $dbPass;
+            if (!empty($parts['path'])) {
+                $dbName = ltrim($parts['path'], '/');
+            }
+        }
+    }
+}
+
+define('DB_HOST', $dbHost);
+define('DB_PORT', $dbPort);
+define('DB_NAME', $dbName);
+define('DB_USER', $dbUser);
+define('DB_PASS', $dbPass);
 define('DB_CHARSET', 'utf8mb4');
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -46,8 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ── Create PDO connection ─────────────────────────────────────────────────────
 try {
     $dsn = sprintf(
-        'mysql:host=%s;dbname=%s;charset=%s',
+        'mysql:host=%s;port=%s;dbname=%s;charset=%s',
         DB_HOST,
+        DB_PORT,
         DB_NAME,
         DB_CHARSET
     );
