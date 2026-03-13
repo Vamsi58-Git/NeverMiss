@@ -1700,7 +1700,7 @@ export default function App() {
                 {isDeepDiving ? (
                   <div className="flex flex-col items-center justify-center py-12 gap-4">
                     <Loader2 size={48} className="animate-spin text-blue-600" />
-                    <p className="text-slate-500 font-medium animate-pulse">Thinking deeply with Gemini Pro...</p>
+                    <p className="text-slate-500 font-medium animate-pulse">AI DEEP DIVE</p>
                   </div>
                 ) : (
                   <div className="prose prose-slate max-w-none">
