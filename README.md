@@ -1,4 +1,5 @@
 # NeverMiss – Full-Stack Setup Guide
+# RENDER (https://nevermiss-i6bj.onrender.com/)
 
 > **Never miss an internship, hackathon, or scholarship again.**  
 > React + TypeScript + Vite frontend · PHP REST API backend · MySQL database
