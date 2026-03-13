@@ -979,7 +979,7 @@ export default function App() {
               {[
                 { icon: Sparkles, title: 'Smart Capture', desc: 'Paste text or URL and auto-extract company, role, deadline, source.' },
                 { icon: Briefcase, title: 'Category Tracking', desc: 'Classify opportunities as Internship, Hackathon, Scholarship, or Job.' },
-                { icon: Bell, title: 'Status Workflow', desc: 'Track Not Applied, Applied, Rejected, and Accepted with quick updates.' },
+                { icon: CheckCircle, title: 'Status Workflow', desc: 'Track Not Applied, Applied, Rejected, and Accepted with quick updates.' },
                 { icon: Clock, title: 'Deadline Countdown', desc: 'See exactly how many days are left and prioritize high-urgency tasks.' },
                 { icon: Filter, title: 'Filters & Search', desc: 'Find opportunities by category, keywords, and date in seconds.' },
                 { icon: Bookmark, title: 'Duplicate Prevention', desc: 'Avoid repeated entries from forwarded or duplicated alerts.' },
@@ -1128,7 +1128,7 @@ export default function App() {
                   className="relative p-2 text-slate-500 hover:bg-white hover:text-slate-900 rounded-xl transition-all border border-transparent hover:border-slate-100"
                   title="Top deadline notifications"
                 >
-                  <Bell size={22} />
+                  <img src="/bell-icon.svg" alt="Notifications" className="w-6 h-6" />
                   {topDeadlineNotifications.length > 0 && (
                     <span className="absolute top-2 right-2 min-w-4 h-4 px-1 bg-yellow-500 text-slate-900 text-[10px] rounded-full border-2 border-white flex items-center justify-center">
                       {topDeadlineNotifications.length}
@@ -1556,11 +1556,11 @@ export default function App() {
                       <motion.div key={opp.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
                         className={`flex items-center justify-between p-5 rounded-2xl border ${bg}`}>
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: isApplied ? '#dbeafe' : '#fef3c7' }}>
+                          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: isApplied ? '#dbeafe' : '#fef3c7' }}>
                             {isApplied ? (
-                              <CheckCircle size={20} className="text-green-600" />
+                              <CheckCircle size={24} className="text-green-600 stroke-[1.5]" />
                             ) : (
-                              <Clock size={20} className="text-yellow-600" />
+                              <img src="/bell-icon.svg" alt="Pending" className="w-6 h-6" style={{ filter: 'invert(0.6)' }} />
                             )}
                           </div>
                           <div>
