@@ -1128,7 +1128,7 @@ export default function App() {
                   className="relative p-2 text-slate-500 hover:bg-white hover:text-slate-900 rounded-xl transition-all border border-transparent hover:border-slate-100"
                   title="Top deadline notifications"
                 >
-                  <img src="/bell-icon.svg" alt="Notifications" className="w-6 h-6" />
+                  <img src="https://cdn-icons-png.flaticon.com/512/3345/3345898.png" alt="Notifications" className="w-6 h-6" />
                   {topDeadlineNotifications.length > 0 && (
                     <span className="absolute top-2 right-2 min-w-4 h-4 px-1 bg-yellow-500 text-slate-900 text-[10px] rounded-full border-2 border-white flex items-center justify-center">
                       {topDeadlineNotifications.length}
@@ -1560,7 +1560,7 @@ export default function App() {
                             {isApplied ? (
                               <CheckCircle size={24} className="text-green-600 stroke-[1.5]" />
                             ) : (
-                              <img src="/bell-icon.svg" alt="Pending" className="w-6 h-6" style={{ filter: 'invert(0.6)' }} />
+                              <img src="https://cdn-icons-png.flaticon.com/512/3345/3345898.png" alt="Pending" className="w-5 h-5" />
                             )}
                           </div>
                           <div>
