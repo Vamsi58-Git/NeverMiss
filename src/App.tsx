@@ -1363,6 +1363,7 @@ export default function App() {
                       <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Deadline</th>
                       <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Remaining</th>
                       <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Source</th>
+                      <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Link</th>
                       <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Status</th>
                       <th className="text-left px-6 py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Actions</th>
                     </tr>
@@ -1393,6 +1394,17 @@ export default function App() {
                             }`}>{opp.source}</span>
                           </td>
                           <td className="px-6 py-4">
+                            {opp.link ? (
+                              <a href={opp.link} target="_blank" rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg hover:bg-blue-100 transition-colors border border-blue-200">
+                                <ExternalLink size={14} />
+                                Open
+                              </a>
+                            ) : (
+                              <span className="text-xs text-slate-400">—</span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
                             <select
                               value={opp.status ?? 'Not Applied'}
                               onChange={(e) => handleStatusChange(opp.id, e.target.value as NonNullable<Opportunity['status']>)}
@@ -1405,12 +1417,6 @@ export default function App() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
-                              {opp.link && (
-                                <a href={opp.link} target="_blank" rel="noopener noreferrer"
-                                  className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Open link">
-                                  <ExternalLink size={15} />
-                                </a>
-                              )}
                               <button onClick={() => handleDeepDive(opp)} className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="AI Deep Dive">
                                 <BrainCircuit size={15} />
                               </button>
