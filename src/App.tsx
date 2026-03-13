@@ -9,7 +9,7 @@ import {
   Briefcase, 
   Clock, 
   Bookmark, 
-  Bell, 
+  AlertCircle, 
   Settings, 
   Search, 
   User,
@@ -25,7 +25,8 @@ import {
   Loader2,
   ArrowRight,
   BrainCircuit,
-  X
+  X,
+  CheckCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
@@ -1075,7 +1076,7 @@ export default function App() {
           <SidebarItem icon={Briefcase}       label="Opportunities"  active={activePage === 'opportunities'}  onClick={() => setActivePage('opportunities')} />
           <SidebarItem icon={Clock}           label="Deadlines"      active={activePage === 'deadlines'}      onClick={() => setActivePage('deadlines')} />
           <SidebarItem icon={Bookmark}        label="Saved Links"    active={activePage === 'saved'}          onClick={() => setActivePage('saved')} />
-          <SidebarItem icon={Bell}            label="Notifications"  active={activePage === 'notifications'}  onClick={() => setActivePage('notifications')} />
+          <SidebarItem icon={AlertCircle}  label="Notifications"  active={activePage === 'notifications'}  onClick={() => setActivePage('notifications')} />
           <SidebarItem icon={Settings}        label="Profile & Preferences"       active={activePage === 'settings'}       onClick={() => setActivePage('settings')} />
         </nav>
 
@@ -1542,7 +1543,7 @@ export default function App() {
                   <div className="flex justify-center py-20"><Loader2 className="animate-spin text-blue-500" size={40} /></div>
                 ) : opportunities.length === 0 ? (
                   <div className="text-center py-20 text-slate-400">
-                    <Bell size={48} className="mx-auto mb-4 opacity-30" />
+                    <AlertCircle size={48} className="mx-auto mb-4 opacity-30" />
                     <p className="text-lg font-medium">No notifications yet</p>
                   </div>
                 ) : (
@@ -1555,7 +1556,13 @@ export default function App() {
                       <motion.div key={opp.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
                         className={`flex items-center justify-between p-5 rounded-2xl border ${bg}`}>
                         <div className="flex items-center gap-4">
-                          <span className="text-2xl">{isApplied ? '✅' : '⏰'}</span>
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: isApplied ? '#dbeafe' : '#fef3c7' }}>
+                            {isApplied ? (
+                              <CheckCircle size={20} className="text-green-600" />
+                            ) : (
+                              <Clock size={20} className="text-yellow-600" />
+                            )}
+                          </div>
                           <div>
                             <p className="font-semibold text-slate-900">{opp.company} — {opp.title}</p>
                             <p className="text-sm text-slate-500">Deadline: <span className="font-medium">{opp.deadline}</span></p>
