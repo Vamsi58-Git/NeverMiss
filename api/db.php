@@ -9,10 +9,11 @@
  */
 
 // ── Database credentials ──────────────────────────────────────────────────────
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'nevermiss');
-define('DB_USER', 'root');   // Default XAMPP user – change if needed
-define('DB_PASS', '');       // Default XAMPP password – change if needed
+// Environment variables are used in production platforms like Render.
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME', getenv('DB_NAME') ?: 'nevermiss');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 // ─────────────────────────────────────────────────────────────────────────────
 

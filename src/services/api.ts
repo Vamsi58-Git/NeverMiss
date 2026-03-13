@@ -10,8 +10,8 @@
 
 // ── Base URL ──────────────────────────────────────────────────────────────────
 // During Vite dev: proxied → http://localhost/NeverMiss/api
-// When React is built and served by Apache: relative path works as-is
-const API_BASE = '/api';
+// In production, you can override with VITE_API_BASE (e.g. https://api.example.com/api).
+const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/$/, '');
 
 // ── Shared Opportunity type ───────────────────────────────────────────────────
 export interface DBOpportunity {

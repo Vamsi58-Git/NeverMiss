@@ -175,6 +175,131 @@ The `/api` calls will resolve against Apache automatically.
 
 ---
 
+## Deploy From Git (Recommended)
+
+This project is best deployed on infrastructure that supports **PHP + MySQL + static files**.
+
+### Option A – cPanel / Shared Hosting (Fastest)
+
+1. Create a MySQL database + user in your hosting panel.
+2. Import [`database/schema.sql`](database/schema.sql) into that database.
+3. Clone or upload this repo to your server.
+4. Build frontend assets (local machine or server):
+
+```bash
+npm install
+npm run build
+```
+
+5. In `public_html/` (or your domain root), place:
+      - all files from `dist/` at the root level
+      - your `api/` folder as `public_html/api/`
+6. Update DB credentials in [`api/db.php`](api/db.php):
+      - `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
+7. Open your domain and test:
+      - `https://your-domain.com/api/getOpportunities.php`
+
+### Option B – VPS (Ubuntu + Nginx/Apache)
+
+1. SSH into server and clone your repo:
+
+```bash
+git clone <your-repo-url> nevermiss
+cd nevermiss
+```
+
+2. Install dependencies and build frontend:
+
+```bash
+npm install
+npm run build
+```
+
+3. Configure web root to serve `dist/`.
+4. Expose PHP endpoints at `/api` by serving the `api/` directory via PHP-FPM/Apache PHP.
+5. Create MySQL database and import `database/schema.sql`.
+6. Update `api/db.php` with production DB credentials.
+
+---
+
+## Environment Config For Production
+
+Frontend API base is configurable:
+
+```
+VITE_API_BASE=/api
+```
+
+If your API lives on another domain, set for build:
+
+```
+VITE_API_BASE=https://api.your-domain.com/api
+```
+
+AI key (optional):
+
+```
+GEMINI_API_KEY=your_key_here
+```
+
+---
+
+## Zero-Downtime Deploy Flow (Git)
+
+Use this workflow whenever you push updates:
+
+1. Push changes to `main`.
+2. Pull latest on server:
+
+```bash
+git pull origin main
+```
+
+3. Rebuild frontend:
+
+```bash
+npm install
+npm run build
+```
+
+4. Restart/reload web service if needed (Apache/Nginx/PHP-FPM).
+5. Smoke-test:
+      - homepage loads
+      - add opportunity works
+      - status update works
+      - delete works
+
+---
+
+## Deploy On Render
+
+This repository now includes `Dockerfile` + `render.yaml` for Render deployment.
+
+### Important
+
+Render does **not** provide managed MySQL. You must use an external MySQL database
+(for example PlanetScale, Aiven MySQL, or another hosted MySQL provider).
+
+### Steps
+
+1. Push latest code to your GitHub repo.
+2. In Render, click **New +** -> **Blueprint**.
+3. Select your repo; Render will detect `render.yaml`.
+4. Set environment variables in Render service:
+      - `DB_HOST`
+      - `DB_NAME`
+      - `DB_USER`
+      - `DB_PASS`
+5. Create the service.
+6. Import [`database/schema.sql`](database/schema.sql) into your external MySQL DB.
+7. Open:
+      - `https://<your-render-service>.onrender.com/api/getOpportunities.php`
+      - then the root app URL.
+
+If `/api/getOpportunities.php` returns JSON, your deployment is successful.
+
+---
+
 ## Troubleshooting
 
 | Problem | Fix |

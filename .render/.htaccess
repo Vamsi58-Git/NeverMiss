@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Keep API requests routed to PHP files under /api.
+RewriteCond %{REQUEST_URI} !^/api/
+
+# For SPA deep links, serve index.html when file/folder is missing.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
