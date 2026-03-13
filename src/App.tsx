@@ -1130,7 +1130,7 @@ export default function App() {
                 >
                   <img src="/notification-bell.png" alt="Notifications" className="w-6 h-6" />
                   {topDeadlineNotifications.length > 0 && (
-                    <span className="absolute top-2 right-2 min-w-4 h-4 px-1 bg-yellow-500 text-slate-900 text-[10px] rounded-full border-2 border-white flex items-center justify-center">
+                    <span className="absolute -top-1 right-1 min-w-4 h-4 px-1 bg-yellow-500 text-slate-900 text-[10px] rounded-full border-2 border-white flex items-center justify-center">
                       {topDeadlineNotifications.length}
                     </span>
                   )}
