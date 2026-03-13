@@ -1099,6 +1099,7 @@ export default function App() {
               className="w-full pl-12 pr-12 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onBlur={(e) => setSearchQuery(e.target.value.trim())}
             />
             {isSearching && (
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
