@@ -68,6 +68,7 @@ function extractFirstDate(string $haystack, array $monthMap): ?string {
         ['#\b(\d{1,2})[-/]('.$MON.')[-/](\d{4})\b#i', 'dMonY'],
         ['#\b(0?[1-9]|1[0-2])[-/](0?[1-9]|[12]\d|3[01])[-/](20\d{2})\b#', 'mdy'],
         ['#\b(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?('.$MON.')[,\s]+(\d{4})\b#i', 'dMonY'],
+        ['#\b('.$MON.')\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b#i', 'MonDY'],
     ];
     foreach ($patterns as [$pat, $type]) {
         if (preg_match($pat, $haystack, $m)) {
@@ -243,22 +244,36 @@ $deadline = null;
 
 $deadlineTrigger =
     '(?:last\s+date(?:\s+to\s+apply)?|apply\s+by|deadline|closing\s+date|' .
-    'applications?\s+close[sd]?|submission\s+deadline|register\s+by|' .
+    'applications?\s+close[sd]?|submission\s+deadline|register\s+by|hiring\s+till|' .
     'registration\s+(?:deadline|closes?)|due\s+(?:date|by)|' .
     'last\s+day(?:\s+to\s+apply)?|apply\s+before|ends?\s+on|' .
-    'closes?\s+on|open\s+till|valid\s+till|valid\s+until|until)\s*[:\-\xe2\x80\x93]?\s*';
+    'closes?\s+on|open\s+till|valid\s+till|valid\s+until|until|' .
+    'internship\s+ends?|internship\s+closes?|final\s+date)\s*[:\-\xe2\x80\x93]?\s*';
 
+// First: Line-by-line search for deadline triggers
 foreach (explode("\n", $clean) as $line) {
     if (preg_match('/' . $deadlineTrigger . '/i', $line)) {
         $d = extractFirstDate($line, $monthMap);
         if ($d) { $deadline = $d; break; }
     }
 }
+
+// Second: Search in flat text for deadline trigger + date within 80 chars
 if (!$deadline) {
-    if (preg_match('/' . $deadlineTrigger . '(.{0,80})/i', $flat, $m)) {
+    if (preg_match('/' . $deadlineTrigger . '(.{0,120})/i', $flat, $m)) {
         $deadline = extractFirstDate($m[0], $monthMap);
     }
 }
+
+// Third: Search for common job board deadline patterns
+if (!$deadline) {
+    // Look for date near keywords like "till", "by", "on" without being too strict
+    if (preg_match('/(?:till|by|on)\s+([A-Za-z0-9\s,\-\.\/]+?)(?:\s+(?:2024|2025|2026)|[\.\,\n])/i', $flat, $m)) {
+        $deadline = extractFirstDate($m[1], $monthMap);
+    }
+}
+
+// Fourth: Fallback to first date found in entire text
 if (!$deadline) {
     $deadline = extractFirstDate($flat, $monthMap);
 }
