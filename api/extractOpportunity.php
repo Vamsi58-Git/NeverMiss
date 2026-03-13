@@ -46,6 +46,7 @@ function toISO(array $m, string $type, array $monthMap): ?string {
         switch ($type) {
             case 'iso':   return "{$m[1]}-{$m[2]}-{$m[3]}";
             case 'dmy':   return "{$m[3]}-{$m[2]}-" . str_pad($m[1], 2, '0', STR_PAD_LEFT);
+            case 'mdy':   return "{$m[3]}-{$m[1]}-" . str_pad($m[2], 2, '0', STR_PAD_LEFT);
             case 'dMonY':
                 $mo = $monthMap[strtolower($m[2])] ?? null;
                 return $mo ? "{$m[3]}-{$mo}-" . str_pad($m[1], 2, '0', STR_PAD_LEFT) : null;
@@ -65,6 +66,8 @@ function extractFirstDate(string $haystack, array $monthMap): ?string {
         ['#\b(\d{1,2})\s+('.$MON.')[,\s]+(\d{4})\b#i', 'dMonY'],
         ['#\b('.$MON.')\s+(\d{1,2})[,\s]+(\d{4})\b#i', 'MonDY'],
         ['#\b(\d{1,2})[-/]('.$MON.')[-/](\d{4})\b#i', 'dMonY'],
+        ['#\b(0?[1-9]|1[0-2])[-/](0?[1-9]|[12]\d|3[01])[-/](20\d{2})\b#', 'mdy'],
+        ['#\b(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?('.$MON.')[,\s]+(\d{4})\b#i', 'dMonY'],
     ];
     foreach ($patterns as [$pat, $type]) {
         if (preg_match($pat, $haystack, $m)) {
