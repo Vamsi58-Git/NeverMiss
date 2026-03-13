@@ -450,7 +450,10 @@ export default function App() {
     const matchesSearch =
       !searchQuery.trim() ||
       opp.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      opp.title.toLowerCase().includes(searchQuery.toLowerCase());
+      opp.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.source.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory = categoryFilter === 'All' || opp.type === categoryFilter;
 
